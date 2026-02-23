@@ -1,81 +1,97 @@
-# sav-api
+# SAV Management API - TIPSI TT
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## System Requirements
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+### Functional Requirements
 
-## Running the application in dev mode
+#### 1. Client Management
 
-You can run your application in dev mode that enables live coding using:
+* The system should be able to create a client.
+* The system should be able to update a client.
+* The system should be able to delete a client.
+* The system should be able to list all clients.
+* The system should be able to get a client by ID.
 
-```shell script
-./mvnw compile quarkus:dev
+#### 2. Interaction Management
+
+* The system should be able to create an interaction.
+* The system should be able to update an interaction.
+* The system should be able to delete an interaction.
+* The system should be able to list all interactions.
+* The system should be able to get an interaction by ID.
+
+#### 3. Advanced Search
+
+* The system should be able to search interactions by client.
+* The system should be able to search interactions by type (CALL, EMAIL, MEETING, OTHER).
+* The system should be able to search interactions by commercial.
+* The system should be able to search interactions by date range.
+* The system should be able to combine filters.
+
+#### 4. Statistics
+
+* The system should be able to get the total number of interactions per client.
+* The system should be able to get the total number of interactions per type.
+* The system should be able to get the total duration of interactions.
+
+### Non-Functional Requirements
+
+* **Referential Integrity**: An interaction must always be associated with an existing client.
+* **Temporal Validation**: Future interactions cannot be recorded (date ≤ now).
+* **Persistent History**: Deleting a client does not remove historical interactions.
+* **Input Validation**: All incoming data is validated before persistence.
+* **REST Client APIs**: The app should be able to use REST Client APIs
+
+## Running the Project
+
+### Prerequisites
+
+| Tool               | Version  | Link                               |
+| :----------------- | :------- | :--------------------------------- |
+| **Java JDK**       | 17 or 21 | [Adoptium](https://adoptium.net/)  |
+| **Maven**          | 3.8+     | [Maven](https://maven.apache.org/) |
+| **Docker**         | 20.10+   | [Docker](https://www.docker.com/)  |
+| **Docker Compose** | 2.0+     | Included with Docker Desktop       |
+
+---
+
+## 🚀 Installation and Launch
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/imadbourouche/TIPSI-TT
+cd TIPSI-TT
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+### 2. Start the Project with Docker Compose
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```bash
+docker-compose up --build -d
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### 3. Launch the Application in Development Mode
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+* Start the PostgreSQL container (if not already running):
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```bash
+docker-compose up postgres -d
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+* Launch the application:
 
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
+```bash
+./mvnw quarkus:dev
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+### 4. Run Tests
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+```bash
+./mvnw clean verify
 ```
 
-You can then execute your native executable with: `./target/sav-api-1.0.0-SNAPSHOT-runner`
+### 5. Stop the Project
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-- Hibernate Validator ([guide](https://quarkus.io/guides/validation)): Validate object properties (field, getter) and method parameters for your beans (REST, CDI, Jakarta Persistence)
-- Flyway ([guide](https://quarkus.io/guides/flyway)): Handle your database schema migrations
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
-- JDBC Driver - H2 ([guide](https://quarkus.io/guides/datasource)): Connect to the H2 database via JDBC
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+```bash
+docker-compose down
+```
