@@ -64,34 +64,31 @@ git clone https://github.com/imadbourouche/TIPSI-TT
 cd TIPSI-TT
 ```
 
-### 2. Start the Project with Docker Compose
+### 2. Ways to Start the Project
+
+The project can be started in multiple ways depending on your workflow. You **do not need to run all steps in sequence**; choose the approach that suits you:
+
+* **Full Docker Compose** – start all services (PostgreSQL + app) in one command:
 
 ```bash
 docker-compose up --build -d
 ```
 
-### 3. Launch the Application in Development Mode
-
-* Start the PostgreSQL container (if not already running):
+* **Development Mode with Maven** – start only the application while using a running PostgreSQL container:
 
 ```bash
 docker-compose up postgres -d
-```
 
-* Launch the application:
-
-```bash
 ./mvnw quarkus:dev
 ```
 
-### 4. Run Tests
+> Accéder à l'API et à la documentation Swagger UI à l'adresse suivante :
+>    - **API REST**: `http://localhost:8080`
+>    - **Swagger UI**: `http://localhost:8080/q/swagger-ui`
+### 3. Testing
+
+run automated tests without starting the app manually:
 
 ```bash
 ./mvnw clean verify
-```
-
-### 5. Stop the Project
-
-```bash
-docker-compose down
 ```
