@@ -158,7 +158,7 @@ run automated tests without starting the app manually:
 | :--- | :--- | :--- | :--- |
 | `id` | BIGINT | PK, Auto-incr | Identifiant unique |
 | `client_id` | BIGINT | FK → clients.id | Lien vers le client |
-| `user_id` | BIGINT | FK → users.id | Commercial responsable |
+| `commercial` | VARCHAR | NOT NULL | Commercial responsable |
 | `type` | VARCHAR | NOT NULL | CALL, EMAIL, MEETING, OTHER |
 | `summary` | TEXT | NOT NULL | Résumé de l'échange |
 | `occurred_at` | TIMESTAMP | NOT NULL | Date de l'interaction |
@@ -194,7 +194,7 @@ run automated tests without starting the app manually:
 | :--- | :--- | :--- |
 | `client_id` | Long | Filter by client_id |
 | `type` | String | Filter by type (CALL, EMAIL...) |
-| `user_id` | Long | Filter by user_id |
+| `commercial` | String | Filter by commercial |
 | `from` | Date | Start date (ISO 8601) |
 | `to` | Date | End date (ISO 8601) |
 
@@ -241,9 +241,9 @@ To validate the sustainability of our solution, we project data volumes based on
 * **Client Portfolio**: 3500 merchants (B2B companies) to be managed.
 * **Users (Internal Staff)**: A dedicated internal team of 5 members.
 * **Data Volume**: With regular follow-ups, the `interactions` table will quickly become the heart of the system. If each merchant averages 5 interactions per month (calls, emails, notes), we reach:
-* 17500 interactions per month.
-* 210,000 new interactions per year.
-* Over 1 million rows in less than 5 years.
+    * 17500 interactions per month.
+    * 210,000 new interactions per year.
+    * Over 1 million rows in less than 5 years.
 
 
 * **Business Constraint**: The tool must be ultra-responsive to ensure the internal team remains efficient in their daily workflow.
