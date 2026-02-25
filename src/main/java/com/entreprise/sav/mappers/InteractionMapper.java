@@ -24,17 +24,21 @@ public class InteractionMapper {
         if (dto.type() != null) {
             interaction.type = dto.type();
         }
-        if (dto.summary() != null) {
+        
+        if (dto.summary() != null && !dto.summary().isBlank()) {
             interaction.summary = dto.summary();
         }
+
+        if (dto.commercial() != null && !dto.commercial().isBlank()) {
+            interaction.commercial = dto.commercial();
+        }
+
         if (dto.occurred_at() != null) {
             interaction.occurredAt = dto.occurred_at();
         }
+        
         if (dto.duration() != null) {
             interaction.duration = dto.duration();
-        }
-        if (dto.commercial() != null) {
-            interaction.commercial = dto.commercial();
         }
     }
 
