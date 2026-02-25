@@ -9,4 +9,4 @@ INSERT INTO interactions (client_id, commercial, type, summary, occurred_at, dur
 INSERT INTO interactions (client_id, commercial, type, summary, occurred_at, duration, created_at) VALUES (1, 'Bob', 'EMAIL', 'Follow up on the meeting', '2023-01-22 09:00:00', 5, '2023-01-22 09:05:00');
 INSERT INTO interactions (client_id, commercial, type, summary, occurred_at, duration, created_at) VALUES (2, 'Charlie', 'MEETING', 'Demo presentation', '2023-02-20 10:00:00', 45, '2023-02-20 11:00:00');
 INSERT INTO interactions (client_id, commercial, type, summary, occurred_at, duration, created_at) VALUES (3, 'Bob', 'CALL', 'Complaint about pricing', '2023-08-10 16:20:00', 15, '2023-08-10 16:35:00');
-INSERT INTO interactions (client_id, commercial, type, summary, occurred_at, duration, created_at) VALUES (4, 'Alice', 'MESSAGE', 'Sent proposal for 2024', '2024-01-08 11:00:00', 10, '2024-01-08 11:10:00');
+INSERT INTO interactions (client_id, commercial, type, summary, occurred_at, duration, created_at) VALUES (4, 'Alice', 'OTHER', 'Sent proposal for 2024', '2024-01-08 11:00:00', 10, '2024-01-08 11:10:00');

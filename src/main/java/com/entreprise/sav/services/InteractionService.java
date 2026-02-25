@@ -41,7 +41,7 @@ public class InteractionService {
                 query.add("type = :type");
                 params.put("type", interactionType);
             } catch (IllegalArgumentException e) {
-                throw new BadRequestException("Type invalide. Valeurs acceptées: CALL, EMAIL, MEETING, MESSAGE");
+                throw new BadRequestException("Type invalide. Valeurs acceptées: CALL, EMAIL, MEETING, OTHER");
             }
         }
 

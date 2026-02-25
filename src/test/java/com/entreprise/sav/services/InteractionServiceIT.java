@@ -93,7 +93,7 @@ public class InteractionServiceIT {
     @Test
     public void should_update_interaction() {
         CreateInteractionDto createDto = new CreateInteractionDto(
-                InteractionType.MESSAGE,
+                InteractionType.OTHER,
                 "Initial message",
                 LocalDateTime.now().minusDays(2),
                 5,
