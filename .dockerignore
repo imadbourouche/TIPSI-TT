@@ -1,4 +1,9 @@
 *
+# Allow these
+!pom.xml
+!src/
+!mvnw
+!.mvn/*
 !target/*-runner
 !target/*-runner.jar
 !target/lib/*
