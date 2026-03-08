@@ -2,6 +2,7 @@ package com.entreprise.sav.services;
 
 import com.entreprise.sav.dto.CreateClientDto;
 import com.entreprise.sav.dto.CreateInteractionDto;
+import com.entreprise.sav.dto.InteractionFilter;
 import com.entreprise.sav.dto.InteractionResponseDto;
 import com.entreprise.sav.dto.UpdateInteractionDto;
 import com.entreprise.sav.entities.Client;
@@ -149,17 +150,17 @@ public class InteractionServiceIT {
         );
         interactionService.createInteraction(dto2);
 
-        List<InteractionResponseDto> calls = interactionService.listInteractions(testClient.id, "CALL", null, null, null);
+        List<InteractionResponseDto> calls = interactionService.listInteractions(new InteractionFilter(testClient.id, "CALL", null, null, null));
         assertFalse(calls.isEmpty());
         assertTrue(calls.stream().allMatch(i -> i.type() == InteractionType.CALL));
 
-        List<InteractionResponseDto> bobs = interactionService.listInteractions(testClient.id, null, "Bob", null, null);
+        List<InteractionResponseDto> bobs = interactionService.listInteractions(new InteractionFilter(testClient.id, null, "Bob", null, null));
         assertFalse(bobs.isEmpty());
         assertTrue(bobs.stream().allMatch(i -> "Bob".equals(i.commercial())));
 
         String fromDate = LocalDateTime.now().minusDays(3).toLocalDate().toString();
         String toDate = LocalDateTime.now().toLocalDate().toString();
-        List<InteractionResponseDto> recent = interactionService.listInteractions(testClient.id, null, null, fromDate, toDate);
+        List<InteractionResponseDto> recent = interactionService.listInteractions(new InteractionFilter(testClient.id, null, null, fromDate, toDate));
         assertFalse(recent.isEmpty());
     }
 }

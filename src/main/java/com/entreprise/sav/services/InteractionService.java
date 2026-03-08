@@ -1,6 +1,7 @@
 package com.entreprise.sav.services;
 
 import com.entreprise.sav.dto.CreateInteractionDto;
+import com.entreprise.sav.dto.InteractionFilter;
 import com.entreprise.sav.dto.InteractionResponseDto;
 import com.entreprise.sav.dto.UpdateInteractionDto;
 import com.entreprise.sav.entities.Client;
@@ -26,52 +27,23 @@ public class InteractionService {
     @Inject
     ClientService clientService;
 
-    public List<InteractionResponseDto> listInteractions(Long clientId, String type, String commercial, String from, String to) {
-        StringJoiner query = new StringJoiner(" AND ");
-        Map<String, Object> params = new HashMap<>();
-
-        if (clientId != null) {
-            query.add("client.id = :clientId");
-            params.put("clientId", clientId);
-        }
-
-        if (type != null && !type.trim().isEmpty()) {
+    public List<InteractionResponseDto> listInteractions(InteractionFilter filter) {
+        InteractionType type = null;
+        if (filter.type() != null && !filter.type().isBlank()) {
             try {
-                InteractionType interactionType = InteractionType.valueOf(type.toUpperCase());
-                query.add("type = :type");
-                params.put("type", interactionType);
+                type = InteractionType.valueOf(filter.type().toUpperCase());
             } catch (IllegalArgumentException e) {
-                throw new BadRequestException("Type invalide. Valeurs acceptées: CALL, EMAIL, MEETING, OTHER");
+                throw new BadRequestException("Invalid type: " + filter.type());
             }
         }
+        LocalDateTime fromDate = (filter.from() != null) ? LocalDate.parse(filter.from()).atStartOfDay() : null;
+        LocalDateTime toDate = (filter.to() != null) ? LocalDate.parse(filter.to()).atTime(23, 59, 59) : null;
 
-        if (commercial != null && !commercial.trim().isEmpty()) {
-            query.add("commercial = :commercial");
-            params.put("commercial", commercial);
-        }
-
-        if (from != null && !from.trim().isEmpty()) {
-            LocalDate fromDate = LocalDate.parse(from);
-            query.add("occurredAt >= :from");
-            params.put("from", fromDate.atStartOfDay());
-        }
-
-        if (to != null && !to.trim().isEmpty()) {
-            LocalDate toDate = LocalDate.parse(to);
-            query.add("occurredAt <= :to");
-            params.put("to", toDate.atTime(23, 59, 59));
-        }
-
-        List<Interaction> interactions;
-        if (query.length() > 0) {
-            interactions = Interaction.list(query.toString(), params);
-        } else {
-            interactions = Interaction.listAll();
-        }
+        List<Interaction> interactions = Interaction.findFiltered(filter.client_id(), type, filter.commercial(), fromDate, toDate).list();
 
         return InteractionMapper.toResponseDtoList(interactions);
     }
-
+ 
     @Transactional
     public InteractionResponseDto createInteraction(CreateInteractionDto dto) {
         Client client;

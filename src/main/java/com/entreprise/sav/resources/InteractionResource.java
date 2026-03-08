@@ -1,6 +1,7 @@
 package com.entreprise.sav.resources;
 
 import com.entreprise.sav.dto.CreateInteractionDto;
+import com.entreprise.sav.dto.InteractionFilter;
 import com.entreprise.sav.dto.InteractionResponseDto;
 import com.entreprise.sav.dto.UpdateInteractionDto;
 import com.entreprise.sav.services.InteractionService;
@@ -32,14 +33,8 @@ public class InteractionResource {
     @GET
     @Operation(summary = "Endpoint pour lister les interactions")
     @APIResponse(responseCode = "200", description = "Interactions trouvées", content = @Content(mediaType = APPLICATION_JSON, schema = @Schema(implementation = InteractionResponseDto.class, type = ARRAY)))
-    public Response listInteractions(
-            @QueryParam("client_id") Long clientId,
-            @QueryParam("type") String type,
-            @QueryParam("commercial") String commercial,
-            @QueryParam("from") String from,
-            @QueryParam("to") String to) {
-
-        return Response.ok(interactionService.listInteractions(clientId, type, commercial, from, to)).build();
+    public Response listInteractions(@BeanParam InteractionFilter filter) {
+        return Response.ok(interactionService.listInteractions(filter)).build();
     }
 
     @GET
